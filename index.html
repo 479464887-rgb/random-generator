@@ -1,1 +1,203 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Random Generator — DevKit Tools</title><meta name="description" content="在线随机数Generate器 - 随机数/随机字符串/随机颜色/掷骰子"><style>*{margin:0;padding:0;box-sizing:border-box}body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#c9d1d9;min-height:100vh;display:flex;flex-direction:column}header{background:#161b22;border-bottom:1px solid #30363d;padding:16px 24px;display:flex;justify-content:space-between;align-items:center}.logo{font-size:18px;font-weight:700;color:#58a6ff}.logo span{color:#f0c040}header .badge{font-size:10px;background:#daa520;color:#fff;padding:2px 8px;border-radius:10px;margin-left:8px}main{max-width:700px;margin:0 auto;padding:32px 24px;flex:1}.tool-wrapper{padding:20px 0}footer{padding:16px 24px;border-top:1px solid #21262d;text-align:center;font-size:12px;color:#484f58}footer a{color:#58a6ff;text-decoration:none;margin:0 8px}.btn-primary:hover{background:#2ea043!important}.btn:hover{background:#30363d!important}input:focus,textarea:focus,select:focus{outline:none;border-color:#58a6ff!important}.btn{font-family:inherit}</style></head><body><header><div class="logo">🛠 <span>Dev</span>Kit<span class="badge">BETA</span></div><div style="font-size:11px;color:#8b949e">🔒 Processed locally · 数据不Upload</div></header><main><h1 style="font-size:24px;margin-bottom:4px">Random Generator</h1><p style="color:#8b949e;font-size:14px;margin-bottom:8px">在线随机数Generate器 - 随机数/随机字符串/随机颜色/掷骰子</p><div class="tool-wrapper"><div style="display:flex;gap:4px;margin-bottom:12px"><button class="tab-btn active" onclick="switchTab('number')" id="tab-number" style="flex:1;padding:10px;border:1px solid #58a6ff;border-radius:6px 6px 0 0;background:#1a2230;color:#58a6ff;cursor:pointer;font-size:12px;font-weight:600">数字</button><button class="tab-btn" onclick="switchTab('string')" id="tab-string" style="flex:1;padding:10px;border:1px solid #30363d;border-radius:6px 6px 0 0;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">字符串</button><button class="tab-btn" onclick="switchTab('color')" id="tab-color" style="flex:1;padding:10px;border:1px solid #30363d;border-radius:6px 6px 0 0;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">颜色</button><button class="tab-btn" onclick="switchTab('dice')" id="tab-dice" style="flex:1;padding:10px;border:1px solid #30363d;border-radius:6px 6px 0 0;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">骰子</button></div><div id="rg-number"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><input type="number" id="rg-min" value="1" style="width:100px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><span>~</span><input type="number" id="rg-max" value="100" style="width:100px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><input type="number" id="rg-count" value="1" min="1" max="100" style="width:80px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center" title="Generate数量"><button class="btn btn-primary" style="padding:10px 20px;background:#238636;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px" onclick="genNumber()">🎲</button></div><div id="rg-num-result" style="font-family:mono;font-size:20px;padding:20px;background:#161b22;border:1px solid #30363d;border-radius:8px;text-align:center;min-height:60px;color:#f0c040;word-break:break-all"></div></div><div id="rg-string" style="display:none"><div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><input type="number" id="rg-str-len" value="16" min="1" max="500" style="width:80px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><div style="display:flex;gap:8px;flex-wrap:wrap"><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-lower" checked>a-z</label><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-upper" checked>A-Z</label><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-digit" checked>0-9</label><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-sym">符号</label></div><button class="btn btn-primary" style="padding:10px 20px;background:#238636;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px" onclick="genString()">🎲</button></div><div id="rg-str-result" style="font-family:mono;font-size:18px;padding:20px;background:#161b22;border:1px solid #30363d;border-radius:8px;text-align:center;min-height:60px;color:#3fb950;word-break:break-all"></div></div><div id="rg-color" style="display:none"><button class="btn btn-primary" style="padding:12px 32px;background:#238636;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;margin-bottom:16px" onclick="genColor()">🎨 随机颜色</button><div id="rg-color-result" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"></div><div id="rg-palette" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:80px;align-items:center"></div></div><div id="rg-dice" style="display:none"><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><select id="rg-dice-type" style="padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px"><option value="6">D6 (6面)</option><option value="20">D20 (20面)</option><option value="4">D4</option><option value="8">D8</option><option value="10">D10</option><option value="12">D12</option><option value="100">D100</option></select><input type="number" id="rg-dice-num" value="1" min="1" max="10" style="width:60px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><button class="btn btn-primary" style="padding:10px 24px;background:#238636;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px" onclick="rollDice()">🎲 投掷</button></div><div id="rg-dice-result" style="font-size:48px;padding:32px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-align:center;min-height:100px;color:#f0c040;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap"></div></div></div></main><footer><a href="https://github.com/479464887-rgb/random-generator">GitHub</a><span>·</span><span>© 2026 DevKit</span></footer><script>let rgmode='number';function switchTab(m){rgmode=m;['number','string','color','dice'].forEach(x=>{document.getElementById('rg-'+x).style.display=x===m?'block':'none';const t=document.getElementById('tab-'+x);t.style.borderColor=x===m?'#58a6ff':'#30363d';t.style.background=x===m?'#1a2230':'#161b22';t.style.color=x===m?'#58a6ff':'#8b949e'})}function genNumber(){const min=parseInt(document.getElementById('rg-min').value)||1;const max=parseInt(document.getElementById('rg-max').value)||100;const count=parseInt(document.getElementById('rg-count').value)||1;const nums=[];for(let i=0;i<Math.min(count,100);i++)nums.push(Math.floor(Math.random()*(max-min+1))+min);document.getElementById('rg-num-result').textContent=nums.join(', ')}function genString(){let chars='';if(document.getElementById('rg-lower').checked)chars+='abcdefghijklmnopqrstuvwxyz';if(document.getElementById('rg-upper').checked)chars+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(document.getElementById('rg-digit').checked)chars+='0123456789';if(document.getElementById('rg-sym').checked)chars+='!@#$%^&*';if(!chars){document.getElementById('rg-str-result').textContent='至少选一种';return}const len=parseInt(document.getElementById('rg-str-len').value)||16;let s='';const arr=new Uint32Array(len);crypto.getRandomValues(arr);for(let i=0;i<len;i++)s+=chars[arr[i]%chars.length];document.getElementById('rg-str-result').textContent=s}function genColor(){const color='#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0');document.getElementById('rg-color-result').innerHTML=`<div style="width:80px;height:80px;border-radius:12px;background:${color};border:2px solid #30363d"></div><div style="font-size:20px;font-weight:700;color:${color};font-family:mono;align-self:center">${color.toUpperCase()}</div>`;const palette=[];for(let i=0;i<5;i++)palette.push('#'+Math.floor(Math.random()*16777215).toString(16).padStart(6,'0'));document.getElementById('rg-palette').innerHTML=palette.map(c=>`<div style="width:50px;height:50px;border-radius:8px;background:${c};cursor:pointer" onclick="alert('${c}')" title="${c}"></div>`).join('')}function rollDice(){const sides=parseInt(document.getElementById('rg-dice-type').value);const num=parseInt(document.getElementById('rg-dice-num').value)||1;const results=[];let total=0;for(let i=0;i<num;i++){const r=Math.floor(Math.random()*sides)+1;results.push(r);total+=r}document.getElementById('rg-dice-result').innerHTML=results.map(r=>`<span style="background:#21262d;border:1px solid #30363d;border-radius:12px;padding:16px 24px">${r}</span>`).join('')+(num>1?`<span style="font-size:20px;color:#8b949e">合计: ${total}</span>`:'')}genColor()</script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Random Generator — DevKit Tools</title>
+  <meta name="description" content="在线随机数Generate器 - 随机数/随机字符串/随机颜色/掷骰子">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column
+    }
+
+    header {
+      background: #161b22;
+      border-bottom: 1px solid #30363d;
+      padding: 16px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center
+    }
+
+    .logo {
+      font-size: 18px;
+      font-weight: 700;
+      color: #58a6ff
+    }
+
+    .logo span {
+      color: #f0c040
+    }
+
+    header .badge {
+      font-size: 10px;
+      background: #daa520;
+      color: #fff;
+      padding: 2px 8px;
+      border-radius: 10px;
+      margin-left: 8px
+    }
+
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 32px 24px;
+      flex: 1
+    }
+
+    .tool-wrapper {
+      padding: 20px 0
+    }
+
+    footer {
+      padding: 16px 24px;
+      border-top: 1px solid #21262d;
+      text-align: center;
+      font-size: 12px;
+      color: #484f58
+    }
+
+    footer a {
+      color: #58a6ff;
+      text-decoration: none;
+      margin: 0 8px
+    }
+
+    .btn-primary:hover {
+      background: #2ea043 !important
+    }
+
+    .btn:hover {
+      background: #30363d !important
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #58a6ff !important
+    }
+
+    .btn {
+      font-family: inherit
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">🛠 <span>Dev</span>Kit<span class="badge">BETA</span></div>
+    <div style="font-size:11px;color:#8b949e">🔒 Processed locally · 数据不Upload</div>
+  </header>
+  <main>
+    <h1 style="font-size:24px;margin-bottom:4px">Random Generator</h1>
+    <p style="color:#8b949e;font-size:14px;margin-bottom:8px">在线随机数Generate器 - 随机数/随机字符串/随机颜色/掷骰子</p>
+    <div class="tool-wrapper">
+      <div style="display:flex;gap:4px;margin-bottom:12px"><button class="tab-btn active" onclick="switchTab('number')" id="tab-number" style="flex:1;padding:10px;border:1px solid #58a6ff;border-radius:6px 6px 0 0;background:#1a2230;color:#58a6ff;cursor:pointer;font-size:12px;font-weight:600">数字</button><button class="tab-btn" onclick="switchTab('string')" id="tab-string" style="flex:1;padding:10px;border:1px solid #30363d;border-radius:6px 6px 0 0;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">字符串</button><button class="tab-btn" onclick="switchTab('color')" id="tab-color" style="flex:1;padding:10px;border:1px solid #30363d;border-radius:6px 6px 0 0;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">颜色</button><button class="tab-btn" onclick="switchTab('dice')" id="tab-dice" style="flex:1;padding:10px;border:1px solid #30363d;border-radius:6px 6px 0 0;background:#161b22;color:#8b949e;cursor:pointer;font-size:12px;font-weight:600">骰子</button></div>
+      <div id="rg-number">
+        <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><input type="number" id="rg-min" value="1" style="width:100px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><span>~</span><input type="number" id="rg-max" value="100" style="width:100px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><input type="number" id="rg-count" value="1" min="1" max="100" style="width:80px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center" title="Generate数量"><button class="btn btn-primary" style="padding:10px 20px;background:#238636;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px" onclick="genNumber()">🎲</button></div>
+        <div id="rg-num-result" style="font-family:mono;font-size:20px;padding:20px;background:#161b22;border:1px solid #30363d;border-radius:8px;text-align:center;min-height:60px;color:#f0c040;word-break:break-all"></div>
+      </div>
+      <div id="rg-string" style="display:none">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px"><input type="number" id="rg-str-len" value="16" min="1" max="500" style="width:80px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center">
+          <div style="display:flex;gap:8px;flex-wrap:wrap"><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-lower" checked>a-z</label><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-upper" checked>A-Z</label><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-digit" checked>0-9</label><label style="font-size:12px;display:flex;align-items:center;gap:4px"><input type="checkbox" id="rg-sym">符号</label></div><button class="btn btn-primary" style="padding:10px 20px;background:#238636;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px" onclick="genString()">🎲</button>
+        </div>
+        <div id="rg-str-result" style="font-family:mono;font-size:18px;padding:20px;background:#161b22;border:1px solid #30363d;border-radius:8px;text-align:center;min-height:60px;color:#3fb950;word-break:break-all"></div>
+      </div>
+      <div id="rg-color" style="display:none"><button class="btn btn-primary" style="padding:12px 32px;background:#238636;color:#fff;border:none;border-radius:8px;cursor:pointer;font-size:14px;margin-bottom:16px" onclick="genColor()">🎨 随机颜色</button>
+        <div id="rg-color-result" style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center"></div>
+        <div id="rg-palette" style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;min-height:80px;align-items:center"></div>
+      </div>
+      <div id="rg-dice" style="display:none">
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px"><select id="rg-dice-type" style="padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px">
+            <option value="6">D6 (6面)</option>
+            <option value="20">D20 (20面)</option>
+            <option value="4">D4</option>
+            <option value="8">D8</option>
+            <option value="10">D10</option>
+            <option value="12">D12</option>
+            <option value="100">D100</option>
+          </select><input type="number" id="rg-dice-num" value="1" min="1" max="10" style="width:60px;padding:10px;border:1px solid #30363d;border-radius:6px;background:#0d1117;color:#c9d1d9;font-size:14px;outline:none;text-align:center"><button class="btn btn-primary" style="padding:10px 24px;background:#238636;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px" onclick="rollDice()">🎲 投掷</button></div>
+        <div id="rg-dice-result" style="font-size:48px;padding:32px;background:#161b22;border:1px solid #30363d;border-radius:12px;text-align:center;min-height:100px;color:#f0c040;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap"></div>
+      </div>
+    </div>
+  </main>
+  <footer><a href="https://github.com/479464887-rgb/random-generator">GitHub</a><span>·</span><span>© 2026 DevKit</span></footer>
+  <script>
+    let rgmode = 'number';
+
+    function switchTab(m) {
+      rgmode = m;
+      ['number', 'string', 'color', 'dice'].forEach(x => {
+        document.getElementById('rg-' + x).style.display = x === m ? 'block' : 'none';
+        const t = document.getElementById('tab-' + x);
+        t.style.borderColor = x === m ? '#58a6ff' : '#30363d';
+        t.style.background = x === m ? '#1a2230' : '#161b22';
+        t.style.color = x === m ? '#58a6ff' : '#8b949e'
+      })
+    }
+
+    function genNumber() {
+      const min = parseInt(document.getElementById('rg-min').value) || 1;
+      const max = parseInt(document.getElementById('rg-max').value) || 100;
+      const count = parseInt(document.getElementById('rg-count').value) || 1;
+      const nums = [];
+      for (let i = 0; i < Math.min(count, 100); i++) nums.push(Math.floor(Math.random() * (max - min + 1)) + min);
+      document.getElementById('rg-num-result').textContent = nums.join(', ')
+    }
+
+    function genString() {
+      let chars = '';
+      if (document.getElementById('rg-lower').checked) chars += 'abcdefghijklmnopqrstuvwxyz';
+      if (document.getElementById('rg-upper').checked) chars += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if (document.getElementById('rg-digit').checked) chars += '0123456789';
+      if (document.getElementById('rg-sym').checked) chars += '!@#$%^&*';
+      if (!chars) {
+        document.getElementById('rg-str-result').textContent = '至少选一种';
+        return
+      }
+      const len = parseInt(document.getElementById('rg-str-len').value) || 16;
+      let s = '';
+      const arr = new Uint32Array(len);
+      crypto.getRandomValues(arr);
+      for (let i = 0; i < len; i++) s += chars[arr[i] % chars.length];
+      document.getElementById('rg-str-result').textContent = s
+    }
+
+    function genColor() {
+      const color = '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+      document.getElementById('rg-color-result').innerHTML = `<div style="width:80px;height:80px;border-radius:12px;background:${color};border:2px solid #30363d"></div><div style="font-size:20px;font-weight:700;color:${color};font-family:mono;align-self:center">${color.toUpperCase()}</div>`;
+      const palette = [];
+      for (let i = 0; i < 5; i++) palette.push('#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0'));
+      document.getElementById('rg-palette').innerHTML = palette.map(c => `<div style="width:50px;height:50px;border-radius:8px;background:${c};cursor:pointer" onclick="alert('${c}')" title="${c}"></div>`).join('')
+    }
+
+    function rollDice() {
+      const sides = parseInt(document.getElementById('rg-dice-type').value);
+      const num = parseInt(document.getElementById('rg-dice-num').value) || 1;
+      const results = [];
+      let total = 0;
+      for (let i = 0; i < num; i++) {
+        const r = Math.floor(Math.random() * sides) + 1;
+        results.push(r);
+        total += r
+      }
+      document.getElementById('rg-dice-result').innerHTML = results.map(r => `<span style="background:#21262d;border:1px solid #30363d;border-radius:12px;padding:16px 24px">${r}</span>`).join('') + (num > 1 ? `<span style="font-size:20px;color:#8b949e">合计: ${total}</span>` : '')
+    }
+    genColor()
+  </script>
+</body>
+
+</html>
